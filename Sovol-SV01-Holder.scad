@@ -22,8 +22,8 @@ bp_h = 2.5; // base plate height
 cms_dx = 35; // delta x of screw posts
 cms_dy = 35; // delta y of screw posts
 
-cms = [[+cms_dx/2, +cms_dy/2],    // screw 1
-       [-cms_dx/2, -cms_dy/2]];   // screw 2
+cms = [[-cms_dx/2, +cms_dy/2],    // screw 1
+       [+cms_dx/2, -cms_dy/2]];   // screw 2
 
 cms_id1 = 6 + clearance; // inner diameter 1
 cms_ih1 = 7; // inner height 1
