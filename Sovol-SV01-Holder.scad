@@ -12,7 +12,7 @@
 
 include <polyround.scad>
 
-$fn = 30;
+$fn = 80;
 clearance = 0.1;
 
 bp_h = 2.5; // base plate height
@@ -57,7 +57,7 @@ sdc_id = 3.0 - clearance; // inner diameter
 sdc_ih = sdc_oh + 2*clearance; // inner height
 
 
-// fan mount posts
+// fan mount posts (bottom part)
 
 fmd = 40; // distance of outer fan mount screws
 fmy = 35; //
@@ -73,7 +73,21 @@ fp_id = 3.0 - clearance;
 fp_ih = fp_oh + clearance;
 fp_iz = 15;
 
+// fanmount (top part)
 
+fwh = 70; // fan width/height
+fhd = 67; // fan hole diameter
+fsd = 61.5; // fan screw distance
+fb = 3; // fan frame border
+fy = fmy+10; // y position
+fc_x = 0; // fan center x
+fc_y = fy+fwh-fb-fhd/2; // fan center y
+
+// fan screw point coordinates
+fs = [[fc_x+fsd/2,fc_y+fsd/2],
+      [fc_x-fsd/2,fc_y+fsd/2],
+      [fc_x+fsd/2,fc_y-fsd/2],
+      [fc_x-fsd/2,fc_y-fsd/2]];
 
 module caseMountScrewOuter() {
     cylinder(d=cms_od, h=cms_oh);
@@ -141,7 +155,7 @@ module baseplate() {
 
     difference() {
         union() {
-#            allScrewsOuter();
+            allScrewsOuter();
             linear_extrude(bp_h) polygon(polyRound(mirroredOuterPoints,30));
         }
         translate([0,0,-clearance/2]) linear_extrude(bp_h+clearance) polygon(polyRound(mirroredInnerPoints,30));
@@ -151,4 +165,35 @@ module baseplate() {
     //  %translate([0,0,0.3])polygon(getpoints(mirroredOuterPoints));
 }
 
-baseplate();
+module fanMountPostOuterTop() {
+    translate([0,0,0]) cylinder(d=fp_od+3, h=fp_oh-bp_h);
+    hull() {
+        translate([0,9,0]) cylinder(d=2.5, h=bp_h);
+        translate([0,0,0]) cylinder(d=fp_od+3, h=fp_oh/2-bp_h);
+    }
+}
+
+module fanMountPostInnerTop() {
+    translate([0,0,bp_h]) cylinder(d=fp_od+2*clearance, h=fp_oh-bp_h);
+    translate([0,0,-clearance]) cylinder(d=cms_id2+2*clearance, h=fp_oh-bp_h);
+}
+
+module fanMount() {
+    function outerPoints(endR=0)=[[0,0,30],[38,fy,30],[38,fy+fwh,5],[0,fy+fwh,0]];
+    mirroredOuterPoints=mirrorPoints(outerPoints(0),180,[1,0]);
+
+    difference() {
+        union() {
+            linear_extrude(bp_h) polygon(polyRound(mirroredOuterPoints,30));
+            fanMountPosts(fmp) fanMountPostOuterTop();
+        }
+        fanMountPosts(fmp) fanMountPostInnerTop();
+        translate([fc_x,fc_y,-clearance/2]) cylinder(d=fhd, h=bp_h + clearance);
+        for(s=fs) {
+            translate([s[0],s[1],-clearance]) cylinder(d=fp_id,h=10);
+        }
+    }
+}
+
+translate([0,-40,0]) baseplate();
+translate([0,-10,0]) fanMount();
