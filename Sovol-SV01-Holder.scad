@@ -1,13 +1,19 @@
 //
 // Board-Fan and stepdown holder for Sovol SV01
 //
-// This is a non invasive holder for a fan and two step down converters
+// This is a non invasive holder for a fan and two step down converters.
 //
-// The fan used is this 70x70x10 fan (driven with 8-9V it is quite enough):
+// The fan used is this 70x70x10 fan:
 // https://www.pollin.de/p/axialluefter-y-s-tech-fd127010lb-70x70x10-mm-12-v-320452
+// (driving this fan with 8-9V makes it very quiet while still cooling enough)
 //
 // The step down converters are this (one for 12V, the other for 8.5V):
 // https://www.aliexpress.com/item/32721507753.html
+//
+// This is also my first attempt zu use the great Round-Anything library
+// you can find here:
+// https://github.com/Irev-Dev/Round-Anything
+// (The needed polyround.scad file from the lib is included for self-containedness)
 //
 
 include <polyround.scad>
@@ -62,6 +68,7 @@ sdc_ih = sdc_oh + 2*clearance; // inner height
 fmd = 40; // distance of outer fan mount screws
 fmy = 35; //
 
+// fan mount post coordinates (used also in top part)
 fmp = [[-fmd/2, fmy],
        [0, fmy-13],
        [fmd/2, fmy]];
@@ -195,5 +202,5 @@ module fanMount() {
     }
 }
 
-translate([0,-40,0]) baseplate();
-translate([0,-10,0]) fanMount();
+translate([0,-43,0]) baseplate();
+translate([0,-15,0]) fanMount();
