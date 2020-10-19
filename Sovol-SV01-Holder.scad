@@ -70,15 +70,18 @@ fmy = 35; //
 
 // fan mount post coordinates (used also in top part)
 fmp = [[-fmd/2, fmy],
-       [0, fmy-13],
+       [0, fmy-18],
        [fmd/2, fmy]];
 
-fp_od = 6;
+fp_od = 6; 
 fp_oh = 28;
+fp_od2 = fp_od + 3;
+fp_oh2 = 15;
+fp_oht = fp_oh-fp_oh2+bp_h - 3*clearance; //fp_oh-fp_oh2-1;
 
 fp_id = 3.0 - clearance;
 fp_ih = fp_oh + clearance;
-fp_iz = 15;
+fp_iz = fp_oh2;
 
 // fanmount (top part)
 
@@ -86,7 +89,7 @@ fwh = 70; // fan width/height
 fhd = 67; // fan hole diameter
 fsd = 61.5; // fan screw distance
 fb = 3; // fan frame border
-fy = fmy+10; // y position
+fy = fmy+15; // y position
 fc_x = 0; // fan center x
 fc_y = fy+fwh-fb-fhd/2; // fan center y
 
@@ -126,7 +129,8 @@ module stepDownConverterScrews(sdcs) {
 }
 
 module fanMountPostOuter() {
-    cylinder(d=fp_od, h=fp_oh);
+    cylinder(d=fp_od-clearance, h=fp_oh);
+    cylinder(d=fp_od2-clearance, h=fp_oh2);
 }
 
 module fanMountPostInner() {
@@ -173,10 +177,10 @@ module baseplate() {
 }
 
 module fanMountPostOuterTop() {
-    translate([0,0,0]) cylinder(d=fp_od+3, h=fp_oh-bp_h);
+    translate([0,0,0]) cylinder(d=fp_od+3, h=fp_oht);
     hull() {
-        translate([0,9,0]) cylinder(d=2.5, h=bp_h);
-        translate([0,0,0]) cylinder(d=fp_od+3, h=fp_oh/2-bp_h);
+        translate([0,11,0]) cylinder(d=2.5, h=bp_h);
+        translate([0,0,0]) cylinder(d=fp_od2, h=fp_oh/2-bp_h);
     }
 }
 
@@ -186,7 +190,7 @@ module fanMountPostInnerTop() {
 }
 
 module fanMount() {
-    function outerPoints(endR=0)=[[0,0,30],[38,fy,30],[38,fy+fwh,5],[0,fy+fwh,0]];
+    function outerPoints(endR=0)=[[0,0,17.5],[38,fy,30],[38,fy+fwh,5],[0,fy+fwh,0]];
     mirroredOuterPoints=mirrorPoints(outerPoints(0),180,[1,0]);
 
     difference() {
@@ -203,4 +207,4 @@ module fanMount() {
 }
 
 translate([0,-43,0]) baseplate();
-translate([0,-15,0]) fanMount();
+translate([0,-10,0]) fanMount();
