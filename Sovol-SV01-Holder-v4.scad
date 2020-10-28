@@ -31,10 +31,10 @@ cms_dy = 35; // delta y of screw posts
 cms = [[-cms_dx/2, +cms_dy/2],    // screw 1
        [+cms_dx/2, -cms_dy/2]];   // screw 2
 
-cms_id1 = 6 + clearance; // inner diameter 1
+cms_id1 = 6 + 2*clearance; // inner diameter 1
 cms_ih1 = 7; // inner height 1
 
-cms_id2 = 3.5; // inner diameter 2
+cms_id2 = 3.5 + clearance; // inner diameter 2
 cms_ih2 = cms_ih1 + 5; // inner height 2
 
 cms_od = 10; // outer diameter
