@@ -219,4 +219,4 @@ module fanMount() {
 }
 
 translate([0,-43,0]) baseplate();
-//translate([0,0,0]) fanMount();
+translate([0,0,0]) fanMount();
