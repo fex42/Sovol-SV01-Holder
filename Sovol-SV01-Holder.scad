@@ -65,8 +65,8 @@ sdc_ih = sdc_oh + 2*clearance; // inner height
 
 // fan mount posts (bottom part)
 
-fmd = 40; // distance of outer fan mount screws
-fmy = 35; //
+fmd = 50; // distance of outer fan mount screws
+fmy = 30; //
 
 // fan mount post coordinates (used also in top part)
 fmp = [[-fmd/2, fmy],
@@ -82,22 +82,6 @@ fp_oht = fp_oh-fp_oh2+bp_h - 3*clearance; //fp_oh-fp_oh2-1;
 fp_id = 3.0 - clearance;
 fp_ih = fp_oh + clearance;
 fp_iz = fp_oh2;
-
-// fanmount (top part)
-
-fwh = 70; // fan width/height
-fhd = 67; // fan hole diameter
-fsd = 61.5; // fan screw distance
-fb = 3; // fan frame border
-fy = fmy+15; // y position
-fc_x = 0; // fan center x
-fc_y = fy+fwh-fb-fhd/2; // fan center y
-
-// fan screw point coordinates
-fs = [[fc_x+fsd/2,fc_y+fsd/2],
-      [fc_x-fsd/2,fc_y+fsd/2],
-      [fc_x+fsd/2,fc_y-fsd/2],
-      [fc_x-fsd/2,fc_y-fsd/2]];
 
 module caseMountScrewOuter() {
     cylinder(d=cms_od, h=cms_oh);
@@ -157,17 +141,29 @@ module allScrewsInner() {
     }
 }
 
+    sp_w = fmd + fp_od2 + 2;
+
+module spoiler() {
+    translate([-sp_w/2,fmy,0]) {
+        difference() {
+            cube([sp_w,17,fp_oh2]);
+            translate([-clearance/2,fp_oh2+3,fp_oh2+2*clearance]) rotate([0,90,0]) cylinder(h=sp_w+clearance, r=fp_oh2);
+        }
+    }
+}
+
 module baseplate() {
-    function outerPoints(endR=0)=[[0,32,7],[26,46,7],[27,21,7],[45,21,5],[45,-23,5],[0,-23,endR]];
+    function outerPoints(endR=0)=[[0,37,7],[sp_w/2,37,7],[sp_w/2,21,5],[45,21,5],[45,-23,5],[0,-23,endR]];
     mirroredOuterPoints=mirrorPoints(outerPoints(0),180,[1,0]);
 
-    function innerPoints(endR=0)=[[0,11,0],[8,11,5],[16,11,6],[35,11,3],[35,-12,3],[0,-12,endR]];
+    function innerPoints(endR=0)=[[0,6,0],[3,6,10],[13,11,6],[35,11,3],[35,-12,3],[0,-12,endR]];
     mirroredInnerPoints=mirrorPoints(innerPoints(0),180,[1,0]);
 
     difference() {
         union() {
             allScrewsOuter();
             linear_extrude(bp_h) polygon(polyRound(mirroredOuterPoints,30));
+            spoiler();
         }
         translate([0,0,-clearance/2]) linear_extrude(bp_h+clearance) polygon(polyRound(mirroredInnerPoints,30));
 
@@ -189,8 +185,24 @@ module fanMountPostInnerTop() {
     translate([0,0,-clearance]) cylinder(d=cms_id2+2*clearance, h=fp_oh-bp_h);
 }
 
+// fanmount (top part)
+
+fwh = 80; // fan width/height
+fhd = 77; // fan hole diameter
+fsd = 71.2; // fan screw distance
+fb = 3; // fan frame border
+fy = fmy+6; // y position
+fc_x = 0; // fan center x
+fc_y = fy+fwh-fb-fhd/2; // fan center y
+
+// fan screw point coordinates
+fs = [[fc_x+fsd/2,fc_y+fsd/2],
+      [fc_x-fsd/2,fc_y+fsd/2],
+      [fc_x+fsd/2,fc_y-fsd/2],
+      [fc_x-fsd/2,fc_y-fsd/2]];
+
 module fanMount() {
-    function outerPoints(endR=0)=[[0,0,17.5],[38,fy,30],[38,fy+fwh,5],[0,fy+fwh,0]];
+    function outerPoints(endR=0)=[[0,0,20],[fwh/2+fb,fmy+8,15],[fwh/2+fb,fy+fwh,5],[0,fy+fwh,0]];
     mirroredOuterPoints=mirrorPoints(outerPoints(0),180,[1,0]);
 
     difference() {
@@ -207,4 +219,4 @@ module fanMount() {
 }
 
 translate([0,-43,0]) baseplate();
-translate([0,-10,0]) fanMount();
+//translate([0,0,0]) fanMount();
