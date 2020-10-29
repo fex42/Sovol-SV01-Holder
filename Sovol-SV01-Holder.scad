@@ -43,7 +43,7 @@ cms_oh = cms_ih1 + 1.7; // outer height
 // step down converter screws
 
 sdc_dx = 15.6; // delta x of the two screws
-sdc_dy = 29.8; // delta y of the two screws
+sdc_dy = 29.9; // delta y of the two screws
 
 sdc1_x = -26; // top right screw of 1st step down converter (x)
 sdc1_y = 14.4; // top right screw of 1st step down converter (y)
@@ -74,7 +74,7 @@ fmp = [[-fmd/2, fmy],
        [fmd/2, fmy]];
 
 fp_od = 6; 
-fp_oh = 28;
+fp_oh = 26;
 fp_od2 = fp_od + 3;
 fp_oh2 = 15;
 fp_oht = fp_oh-fp_oh2+bp_h - 3*clearance; //fp_oh-fp_oh2-1;
@@ -141,7 +141,7 @@ module allScrewsInner() {
     }
 }
 
-    sp_w = fmd + fp_od2 + 2;
+sp_w = fmd + fp_od2 + 5; // spoiler width
 
 module spoiler() {
     translate([-sp_w/2,fmy,0]) {
