@@ -3,9 +3,8 @@
 //
 // This is a non invasive holder for a fan and two step down converters.
 //
-// The fan used is this 70x70x10 fan:
-// https://www.pollin.de/p/axialluefter-y-s-tech-fd127010lb-70x70x10-mm-12-v-320452
-// (driving this fan with 8-9V makes it very quiet while still cooling enough)
+// The fan that can be used is this 80x80x10 fan:
+// https://www.aliexpress.com/item/32570285568.html
 //
 // The step down converters are this (one for 12V, the other for 8.5V):
 // https://www.aliexpress.com/item/32721507753.html
