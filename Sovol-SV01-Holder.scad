@@ -4,7 +4,7 @@
 // This is a non invasive holder for a fan and two step down converters.
 //
 // The fan that can be used is this 80x80x10 fan:
-// https://www.aliexpress.com/item/32570285568.html
+// https://www.aliexpress.com/item/1005001809741396.html
 //
 // The step down converters are this (one for 12V, the other for 8.5V):
 // https://www.aliexpress.com/item/32721507753.html
